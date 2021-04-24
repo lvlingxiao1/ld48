@@ -9,12 +9,15 @@ public class Main : MonoBehaviour
 	private int currentGold = 0;
 	private TextMeshProUGUI totalGoldText;
 	private TextMeshProUGUI currentGoldText;
+	Transform player;
+	
 
 
 	private void Awake()
 	{
 		totalGoldText = GameObject.Find("total_gold").GetComponentInChildren<TextMeshProUGUI>();
 		currentGoldText = GameObject.Find("current_gold").GetComponentInChildren<TextMeshProUGUI>();
+		player = GameObject.Find("Player").transform;
 		TotalGold = 0;
 		CurrentGold = 0;
 	}
@@ -37,5 +40,10 @@ public class Main : MonoBehaviour
 		}
 	}
 
-
+	private void FixedUpdate() {
+		if (player.position.y > 77){
+            TotalGold = TotalGold + CurrentGold;
+            CurrentGold = 0;
+		}
+	}
 }
