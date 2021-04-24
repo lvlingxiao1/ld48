@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 		if (moveAxis > 0)
 		{
 			Transform parent = transform.parent;
-			parent.position = new Vector3(parent.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, parent.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, parent.position.z);
+			parent.position = new Vector3(parent.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(parent.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78), parent.position.z);
 		}
 	}
 }
