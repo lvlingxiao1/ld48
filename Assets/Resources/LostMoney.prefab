@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 7786251748812503324}
   - component: {fileID: 1513656957652418904}
   - component: {fileID: 2751328944963948953}
+  - component: {fileID: 5345389812222649473}
   m_Layer: 0
   m_Name: LostMoney
   m_TagString: Untagged
@@ -185,3 +186,22 @@ CircleCollider2D:
   m_Offset: {x: -0.013088226, y: 0.026187897}
   serializedVersion: 2
   m_Radius: 0.7246094
+--- !u!95 &5345389812222649473
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8049081049120527431}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e158dbb84f945ff4f9d9819d730ac2f6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

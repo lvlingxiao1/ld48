@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
 	public int invincibleCounter;
 	public int invincibleTime = 100;
 	ParticleSystem bubbleEffect;
+	bool deadByPressure;
+	Vector3 warningEnterPosition;
+	public bool inPressure;
+	public float pressureDamageAmount = 5;
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
@@ -42,6 +46,8 @@ public class PlayerController : MonoBehaviour
 		oxygen = oxygenMax;
 		HP = HPMax;
 		invincibleCounter = 0;
+        deadByPressure = false;
+        inPressure = false;
 	}
 
 	// Update is called once per frame
@@ -67,9 +73,17 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (inPressure){
+			PressureDamage();
+		}
 		if (HP <= 0)
 		{
-			Main.PlayerDead(transform.parent.position);
+			if (deadByPressure){
+                Main.PlayerDead(warningEnterPosition);
+			}else{
+                Main.PlayerDead(transform.parent.position);
+			}
+			
 			transform.parent.position = new Vector3(-80, 70, 0);
 			moveAxis = 0f;
 			oxygenLevel = 0;
@@ -81,6 +95,8 @@ public class PlayerController : MonoBehaviour
 			oxygen = oxygenMax;
 			HP = HPMax;
 			invincibleCounter = 0;
+            deadByPressure = false;
+            inPressure = false;
 		}
 		if (moveAxis > 0)
 		{
@@ -152,6 +168,16 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void PressureDamage(){
+        HP -= pressureDamageAmount;
+        invincibleCounter = invincibleTime / 2;
+        if (HP <= 0)
+        {
+            deadByPressure = true;
+            HP = 0;
+        }
+	}
+
 	public int GetShockCD()
 	{
 		return Mathf.CeilToInt(shockCDCounter / (1 / Time.fixedDeltaTime));
@@ -160,5 +186,9 @@ public class PlayerController : MonoBehaviour
 	public int GetFlashCD()
 	{
 		return Mathf.CeilToInt(flashCDCounter / (1 / Time.fixedDeltaTime));
+	}
+
+	public void SetWarningEnterPosition(){
+		warningEnterPosition = new Vector3(transform.position.x, transform.position.y, 0);
 	}
 }
