@@ -4,56 +4,51 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	float moveTarget;
-	float moveAxis;
 	public float moveSpeed = 0.1f;
 	public int shockCD = 100;
 	public int flashCD = 200;
 	public float shockSpeed = 1f;
-	int shockCDCounter;
-	int flashCDCounter;
-	float targetRotationY;
-	float rotationY;
-	Rigidbody2D rb;
+	public bool hasSearchlight;
 	public bool hasShockGun;
 	public bool hasFlash;
 	public int suitLevel;
 	public float HPMax = 100;
 	public float HP;
-	public int oxygenLevel;
-	public float oxygenMax = 1000;
+	public int o2TankLevel;
+	public float oxygenMax = 5000;
 	public float oxygen;
-	bool shockDown;
-	bool flashDown;
 	public int invincibleCounter;
 	public int invincibleTime = 100;
+
+	float moveTarget;
+	float moveAxis;
+	int shockCDCounter;
+	int flashCDCounter;
+	float targetRotationY;
+	float rotationY;
+	bool shockDown;
+	bool flashDown;
+	Rigidbody2D rb;
 	ParticleSystem bubbleEffect;
 	bool deadByPressure;
 	Vector3 warningEnterPosition;
 	public bool inPressure;
 	public float pressureDamageAmount = 5;
+	private Vector2 initPos;
+
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
+		initPos = rb.position;
 		bubbleEffect = GetComponentInChildren<ParticleSystem>();
-		moveAxis = 0f;
-		oxygenLevel = 0;
-		suitLevel = 0;
-		hasFlash = false;
-		hasShockGun = false;
-		shockCDCounter = 0;
-		flashCDCounter = 0;
-		oxygen = oxygenMax;
-		HP = HPMax;
-		invincibleCounter = 0;
-        deadByPressure = false;
-        inPressure = false;
+		Respawn();
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		moveAxis = Input.GetAxis("Move");
+		shockDown = Input.GetMouseButton(1);
+		flashDown = Input.GetMouseButton(2);
 		Vector3 diff = Input.mousePosition - new Vector3(Screen.width / 2, Screen.height / 2, 0);
 		moveTarget = Mathf.Atan2(diff.y, diff.x);
 		if (Mathf.Abs(moveTarget) > Mathf.PI / 2)
@@ -67,8 +62,6 @@ public class PlayerController : MonoBehaviour
 			rotationY = Mathf.Lerp(rotationY, targetRotationY, 0.1f);
 			transform.eulerAngles = new Vector3(0, rotationY, moveTarget * Mathf.Rad2Deg);
 		}
-		shockDown = Input.GetMouseButton(1);
-		flashDown = Input.GetMouseButton(2);
 	}
 
 	private void FixedUpdate()
@@ -78,25 +71,15 @@ public class PlayerController : MonoBehaviour
 		}
 		if (HP <= 0)
 		{
-			if (deadByPressure){
+            if (deadByPressure)
+            {
                 Main.PlayerDead(warningEnterPosition);
-			}else{
+            }
+            else
+            {
                 Main.PlayerDead(transform.parent.position);
-			}
-			
-			transform.parent.position = new Vector3(-80, 70, 0);
-			moveAxis = 0f;
-			oxygenLevel = 0;
-			suitLevel = 0;
-			hasFlash = false;
-			hasShockGun = false;
-			shockCDCounter = 0;
-			flashCDCounter = 0;
-			oxygen = oxygenMax;
-			HP = HPMax;
-			invincibleCounter = 0;
-            deadByPressure = false;
-            inPressure = false;
+            }
+			Respawn();
 		}
 		if (moveAxis > 0)
 		{
@@ -106,7 +89,7 @@ public class PlayerController : MonoBehaviour
 		{
 			shockCDCounter--;
 		}
-		if (shockDown && shockCDCounter == 0)
+		if (shockDown && hasShockGun && shockCDCounter == 0)
 		{
 			shockCDCounter = shockCD;
 			GameObject shock = Resources.Load<GameObject>("Shock");
@@ -120,7 +103,7 @@ public class PlayerController : MonoBehaviour
 		{
 			flashCDCounter--;
 		}
-		if (flashDown && flashCDCounter == 0)
+		if (flashDown && hasFlash && flashCDCounter == 0)
 		{
 			flashCDCounter = flashCD;
 			GameObject flash = Resources.Load<GameObject>("Flash");
@@ -132,27 +115,38 @@ public class PlayerController : MonoBehaviour
 		if (rb.position.y > 77)
 		{
 			oxygen = Mathf.Min(oxygen + 5, oxygenMax);
-            if (!bubbleEffect.isStopped)
-            {
-                bubbleEffect.Stop();
-            }
+			if (!bubbleEffect.isStopped)
+			{
+				bubbleEffect.Stop();
+			}
 		} else
 		{
 			if (oxygen > 0)
 			{
 				oxygen--;
 			}
-            if (!bubbleEffect.isPlaying)
-            {
-                bubbleEffect.Play();
-            }
+			if (!bubbleEffect.isPlaying)
+			{
+				bubbleEffect.Play();
+			}
 		}
 
 		if (invincibleCounter > 0)
 		{
 			invincibleCounter--;
 		}
+	}
 
+	void Respawn()
+	{
+		rb.position = initPos;
+		shockCDCounter = 0;
+		flashCDCounter = 0;
+		oxygen = oxygenMax;
+		HP = HPMax;
+		invincibleCounter = 0;
+        deadByPressure = false;
+        inPressure = false;
 	}
 
 	public void Damage(float amount)

@@ -8,28 +8,12 @@ public class Main : MonoBehaviour
 {
 	private static int totalGold = 0;
 	private static int currentGold = 0;
-	private static TextMeshProUGUI totalGoldText;
-	private static TextMeshProUGUI currentGoldText;
-	private static RectTransform O2Bar;
-	private static RectTransform HPBar;
-	private static Image damage;
 	private static PlayerController playerController;
-	private static GameObject shock;
-    private static GameObject flash;
 
 	private void Awake()
 	{
-		totalGoldText = GameObject.Find("total_gold").GetComponentInChildren<TextMeshProUGUI>();
-		currentGoldText = GameObject.Find("current_gold").GetComponentInChildren<TextMeshProUGUI>();
-		O2Bar = GameObject.Find("O2Bar").GetComponent<RectTransform>();
-		HPBar = GameObject.Find("HPBar").GetComponent<RectTransform>();
-        shock = GameObject.Find("Canvas/Shock");
-        flash = GameObject.Find("Canvas/Flash");
-		TotalGold = 0;
+		TotalGold = 88888;
 		CurrentGold = 0;
-		GameObject damageImage = GameObject.Find("Damage");
-		//damageImage.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
-		damage = damageImage.GetComponent<Image>();
 		playerController = FindObjectOfType<PlayerController>();
 	}
 	public static int TotalGold
@@ -38,7 +22,7 @@ public class Main : MonoBehaviour
 		set
 		{
 			totalGold = value;
-			totalGoldText.text = $"Total Gold: $ {value}";
+			UI.totalGoldText.text = $"Total Gold: $ {value}";
 		}
 	}
 	public static int CurrentGold
@@ -47,35 +31,8 @@ public class Main : MonoBehaviour
 		set
 		{
 			currentGold = value;
-			currentGoldText.text = $"Current Gold: $ {value}";
+			UI.currentGoldText.text = $"Current Gold: $ {value}"; ;
 		}
-	}
-
-	private void Update()
-	{
-		float oxygenPercent = playerController.oxygen / playerController.oxygenMax;
-		O2Bar.localScale = new Vector3(oxygenPercent, 1, 1);
-		float HPPercent = playerController.HP / playerController.HPMax;
-		HPBar.localScale = new Vector3(HPPercent, 1, 1);
-		damage.color = new Color(1, 1, 1, (float)(playerController.invincibleCounter) / playerController.invincibleTime * 0.5f);
-        shock.SetActive(playerController.hasShockGun);
-		int shockCD = playerController.GetShockCD();
-		if (shockCD == 0){
-            shock.GetComponentInChildren<TextMeshProUGUI>().text = "";
-		}else{
-            shock.GetComponentInChildren<TextMeshProUGUI>().text = $"{shockCD}";
-		}
-        flash.SetActive(playerController.hasFlash);
-        int flashCD = playerController.GetFlashCD();
-        if (flashCD == 0)
-        {
-            flash.GetComponentInChildren<TextMeshProUGUI>().text = "";
-        }
-        else
-        {
-            flash.GetComponentInChildren<TextMeshProUGUI>().text = $"{flashCD}";
-        }
-		
 	}
 
 	public static void PlayerDead(Vector3 position)

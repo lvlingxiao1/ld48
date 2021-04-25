@@ -11,10 +11,17 @@ public class Shop : MonoBehaviour
 	int numItems;
 	Transform shopUI;
 	Transform[] itemsUI;
-	Canvas shopUICanvas;
+	PlayerController player;
 
 	const int PRICE = 1;
 	const int BUY = 2;
+
+	const int SEARCHLIGHT = 0;
+	const int SHOCK_GUN = 1;
+	const int FLASH_BOMB = 2;
+	const int O2_TANK = 3;
+	const int DIVING_SUIT = 4;
+
 
 	void Awake()
 	{
@@ -28,8 +35,8 @@ public class Shop : MonoBehaviour
 			int temp = i;
 			itemsUI[i].GetChild(BUY).GetComponent<Button>().onClick.AddListener(() => Buy(temp));
 		}
-		shopUICanvas = shopUI.GetComponent<Canvas>();
-		shopUICanvas.enabled = false;
+		player = FindObjectOfType<PlayerController>();
+		UpdatePlayerEquipments();
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +45,7 @@ public class Shop : MonoBehaviour
 		{
 			Main.TotalGold += Main.CurrentGold;
 			Main.CurrentGold = 0;
-			shopUICanvas.enabled = true;
+			UI.shopUICanvas.enabled = true;
 		}
 	}
 
@@ -46,15 +53,19 @@ public class Shop : MonoBehaviour
 	{
 		if (collision.CompareTag("Player"))
 		{
-			shopUICanvas.enabled = false;
+			UI.shopUICanvas.enabled = false;
 		}
 	}
 
 	void Buy(int itemID)
 	{
 		if (items[itemID].currentLevel == items[itemID].maxLevel) return;
+		int price = items[itemID].prices[items[itemID].currentLevel];
+		if (price > Main.TotalGold) return;
+		Main.TotalGold -= price;
 		items[itemID].currentLevel++;
 		UpdateSoldOut();
+		UpdatePlayerEquipments();
 	}
 
 	void UpdateSoldOut()
@@ -70,6 +81,17 @@ public class Shop : MonoBehaviour
 				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = $"$ {items[i].prices[items[i].currentLevel]}";
 			}
 		}
+	}
+
+	void UpdatePlayerEquipments()
+	{
+		player.hasSearchlight = items[SEARCHLIGHT].currentLevel > 0;
+		player.hasShockGun = items[SHOCK_GUN].currentLevel > 0;
+		player.hasFlash = items[FLASH_BOMB].currentLevel > 0;
+		player.o2TankLevel = items[O2_TANK].currentLevel;
+		player.suitLevel = items[DIVING_SUIT].currentLevel;
+		UI.flashBombIcon.SetActive(player.hasFlash);
+		UI.shockGunIcon.SetActive(player.hasShockGun);
 	}
 }
 
