@@ -27,9 +27,11 @@ public class PlayerController : MonoBehaviour
 	bool flashDown;
 	public int invincibleCount;
 	public int invincibleTime = 100;
+	ParticleSystem swimAffect;
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
+        swimAffect = GetComponentInChildren<ParticleSystem>();
 		moveAxis = 0f;
 		oxygenLevel = 0;
 		suitLevel = 0;
@@ -83,6 +85,14 @@ public class PlayerController : MonoBehaviour
 		if (moveAxis > 0)
 		{
 			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78));
+			if (!swimAffect.isPlaying){
+                swimAffect.Play();
+			}
+		}else{
+            if (!swimAffect.isStopped)
+            {
+                swimAffect.Stop();
+            }
 		}
 		if (shockCDCounter > 0)
 		{
