@@ -6,7 +6,39 @@ using TMPro;
 
 public class Shop : MonoBehaviour
 {
-	public ShopItem[] items;
+	ShopItem[] items =
+		{
+		new ShopItem {
+			name = "Searchlight",
+			maxLevel = 1,
+			prices = new int[] { 3000 },
+			description = "You will need this to see in deep sea"
+		},
+		new ShopItem {
+			name = "Electric Shock Gun",
+			maxLevel = 1,
+			prices = new int[] { 2000 },
+			description = "Stun the fishes"
+		},
+		new ShopItem {
+			name = "Flash Bomb",
+			maxLevel = 1,
+			prices = new int[] { 4000 },
+			description = "Fishes in deep sea are afraid of light"
+		},
+		new ShopItem {
+			name = "Oxygen Tank",
+			maxLevel = 1,
+			prices = new int[] { 5000, 10000 },
+			description = ""
+		},
+		new ShopItem {
+			name = "Diving Suit",
+			maxLevel = 1,
+			prices = new int[] { 10000, 20000 },
+			description = ""
+		},
+	};
 
 	int numItems;
 	Transform shopUI;
@@ -34,6 +66,9 @@ public class Shop : MonoBehaviour
 			itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = $"$ {items[i].prices[0]}";
 			int temp = i;
 			itemsUI[i].GetChild(BUY).GetComponent<Button>().onClick.AddListener(() => Buy(temp));
+			var mouseOverHandler = itemsUI[i].GetComponent<ShopItemMouseOverHandler>();
+			mouseOverHandler.itemName = items[i].name;
+			mouseOverHandler.description = items[i].description;
 		}
 		player = FindObjectOfType<PlayerController>();
 		UpdatePlayerEquipments();
@@ -99,7 +134,7 @@ public class Shop : MonoBehaviour
 public class ShopItem
 {
 	public string name;
-	public int currentLevel;
+	public int currentLevel = 0;
 	public int maxLevel;
 	public int[] prices;
 	public string description;

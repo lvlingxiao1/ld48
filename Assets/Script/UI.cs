@@ -18,6 +18,9 @@ public class UI : MonoBehaviour
 	public static GameObject flashBombIcon;
 	public static GameObject shockGunIcon;
 	public static Canvas shopUICanvas;
+	public static GameObject shopTooltip;
+	public static TextMeshProUGUI itemName;
+	public static TextMeshProUGUI itemDescription;
 	public static Animator UIAnimator;
 
 	private void Awake()
@@ -33,9 +36,13 @@ public class UI : MonoBehaviour
 		shockGunIcon = GameObject.Find("Canvas/Shock");
 		playerController = FindObjectOfType<PlayerController>();
 		shopUICanvas = GameObject.Find("ShopUI").GetComponent<Canvas>();
-        UIAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
+		UIAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
+		shopTooltip = GameObject.Find("ShopTooltip");
+		itemName = GameObject.Find("itemName").GetComponent<TextMeshProUGUI>();
+		itemDescription = GameObject.Find("itemDescription").GetComponent<TextMeshProUGUI>();
 
 		shopUICanvas.enabled = false;
+		shopTooltip.SetActive(false);
 	}
 
 	private void Update()
