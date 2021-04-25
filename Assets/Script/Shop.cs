@@ -23,7 +23,7 @@ public class Shop : MonoBehaviour
 	const int DIVING_SUIT = 4;
 
 
-	void Awake()
+	void Start()
 	{
 		numItems = items.Length;
 		itemsUI = new Transform[numItems];

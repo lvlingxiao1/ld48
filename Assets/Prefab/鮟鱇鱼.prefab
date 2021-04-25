@@ -270,3 +270,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   searchDistance: 81
   speed: 0.05
+  flashDuration: 80

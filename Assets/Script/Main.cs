@@ -10,7 +10,7 @@ public class Main : MonoBehaviour
 	private static int currentGold = 0;
 	private static PlayerController playerController;
 
-	private void Awake()
+	private void Start()
 	{
 		TotalGold = 88888;
 		CurrentGold = 0;
@@ -44,6 +44,10 @@ public class Main : MonoBehaviour
 			newLostMoney.GetComponent<Treasure>().value = CurrentGold;
 			CurrentGold = 0;
 			newLostMoney.transform.position = position;
+			print(CurrentGold);
+			print(position);
 		}
+        playerController.moveable = false;
+		UI.UIAnimator.SetTrigger("inDead");
 	}
 }

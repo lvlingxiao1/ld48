@@ -15,11 +15,15 @@ public class AnglerControl : MonoBehaviour
     float attackSpeed = 10f;
     float targetRotationY;
     float angle;
+    public int flashDuration = 66;
+    int flashCounter;
+    Vector3 flashSpeed;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         attackCounter = 0;
+        flashCounter = 0;
     }
 
     // Update is called once per frame
@@ -30,6 +34,11 @@ public class AnglerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (flashCounter > 0){
+            flashCounter --;
+            transform.position += flashSpeed;
+            return;
+        }
         Vector3 diff = player.position - transform.position;
         if (Mathf.Pow(diff.x, 2) + Mathf.Pow(diff.y, 2) < searchDistance)
         {
@@ -77,6 +86,21 @@ public class AnglerControl : MonoBehaviour
         else
         {
             attackCounter = attackCD;
+        }
+    }
+
+    public void StartFlash(Vector3 source){
+        flashCounter = flashDuration;
+        Vector3 diff = transform.position - source;
+        angle = Mathf.Atan2(diff.y, diff.x);
+        flashSpeed = 3 * speed * (new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0));
+        if (Mathf.Abs(angle) > Mathf.PI / 2)
+        {
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, 180 - angle * Mathf.Rad2Deg);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, angle * Mathf.Rad2Deg);
         }
     }
 }

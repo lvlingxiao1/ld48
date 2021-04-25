@@ -18,6 +18,7 @@ public class UI : MonoBehaviour
 	public static GameObject flashBombIcon;
 	public static GameObject shockGunIcon;
 	public static Canvas shopUICanvas;
+	public static Animator UIAnimator;
 
 	private void Awake()
 	{
@@ -32,6 +33,7 @@ public class UI : MonoBehaviour
 		shockGunIcon = GameObject.Find("Canvas/Shock");
 		playerController = FindObjectOfType<PlayerController>();
 		shopUICanvas = GameObject.Find("ShopUI").GetComponent<Canvas>();
+        UIAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
 
 		shopUICanvas.enabled = false;
 	}

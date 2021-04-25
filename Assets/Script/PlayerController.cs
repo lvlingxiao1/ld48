@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	public float moveSpeed = 0.1f;
+	public float[] moveSpeed = {0.1f, 0.12f, 0.14f};
 	public int shockCD = 100;
 	public int flashCD = 200;
 	public float shockSpeed = 1f;
@@ -12,10 +12,12 @@ public class PlayerController : MonoBehaviour
 	public bool hasShockGun;
 	public bool hasFlash;
 	public int suitLevel;
+    public float[] suitMax = {100, 150, 200};
 	public float HPMax = 100;
 	public float HP;
 	public int o2TankLevel;
 	public float oxygenMax = 5000;
+	public float[] o2TankMax = {5000, 7000, 10000};
 	public float oxygen;
 	public int invincibleCounter;
 	public int invincibleTime = 100;
@@ -35,17 +37,24 @@ public class PlayerController : MonoBehaviour
 	public bool inPressure;
 	public float pressureDamageAmount = 5;
 	private Vector2 initPos;
-
+	public bool moveable;
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
 		initPos = rb.position;
 		bubbleEffect = GetComponentInChildren<ParticleSystem>();
+        moveable = true;
+        suitLevel = 0;
+        o2TankLevel = 0;
 		Respawn();
 	}
 
 	void Update()
 	{
+        if (!moveable)
+        {
+			return;
+        }
 		moveAxis = Input.GetAxis("Move");
 		shockDown = Input.GetMouseButton(1);
 		flashDown = Input.GetMouseButton(2);
@@ -66,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (!moveable){
+			return;
+		}
 		if (inPressure){
 			PressureDamage();
 		}
@@ -77,13 +89,12 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Main.PlayerDead(transform.parent.position);
+                Main.PlayerDead(rb.position);
             }
-			Respawn();
 		}
 		if (moveAxis > 0)
 		{
-			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78));
+			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed[suitLevel], Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed[suitLevel], 78));
 		}
 		if (shockCDCounter > 0)
 		{
@@ -137,16 +148,19 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void Respawn()
+	public void Respawn()
 	{
 		rb.position = initPos;
 		shockCDCounter = 0;
 		flashCDCounter = 0;
+        oxygenMax = o2TankMax[o2TankLevel];
+        HPMax = suitMax[suitLevel];
 		oxygen = oxygenMax;
 		HP = HPMax;
 		invincibleCounter = 0;
         deadByPressure = false;
         inPressure = false;
+		transform.eulerAngles = new Vector3(0, 0, 0);
 	}
 
 	public void Damage(float amount)
