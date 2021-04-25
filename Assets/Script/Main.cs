@@ -5,23 +5,19 @@ using TMPro;
 
 public class Main : MonoBehaviour
 {
-	private int totalGold = 0;
-	private int currentGold = 0;
-	private TextMeshProUGUI totalGoldText;
-	private TextMeshProUGUI currentGoldText;
-	Transform player;
-	
-
+	private static int totalGold = 0;
+	private static int currentGold = 0;
+	private static TextMeshProUGUI totalGoldText;
+	private static TextMeshProUGUI currentGoldText;
 
 	private void Awake()
 	{
 		totalGoldText = GameObject.Find("total_gold").GetComponentInChildren<TextMeshProUGUI>();
 		currentGoldText = GameObject.Find("current_gold").GetComponentInChildren<TextMeshProUGUI>();
-		player = GameObject.Find("Player").transform;
 		TotalGold = 0;
 		CurrentGold = 0;
 	}
-	public int TotalGold
+	public static int TotalGold
 	{
 		get { return totalGold; }
 		set
@@ -30,20 +26,13 @@ public class Main : MonoBehaviour
 			totalGoldText.text = $"Total Gold: $ {value}";
 		}
 	}
-	public int CurrentGold
+	public static int CurrentGold
 	{
 		get { return currentGold; }
 		set
 		{
 			currentGold = value;
 			currentGoldText.text = $"Current Gold: $ {value}";
-		}
-	}
-
-	private void FixedUpdate() {
-		if (player.position.y > 77){
-            TotalGold = TotalGold + CurrentGold;
-            CurrentGold = 0;
 		}
 	}
 }

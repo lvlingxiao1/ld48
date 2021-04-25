@@ -9,7 +9,7 @@ public class Treasure : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			FindObjectOfType<Main>().CurrentGold += value;
+			Main.CurrentGold += value;
 			Destroy(gameObject);
 		}
 	}

@@ -9,9 +9,11 @@ public class PlayerController : MonoBehaviour
 	public float moveSpeed = 0.1f;
 	float targetRotationY;
 	float rotationY;
+	Rigidbody2D rb;
 	void Start()
 	{
 		moveAxis = 0f;
+		rb = transform.parent.GetComponent<Rigidbody2D>();
 	}
 
 	// Update is called once per frame
@@ -37,8 +39,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (moveAxis > 0)
 		{
-			Transform parent = transform.parent;
-			parent.position = new Vector3(parent.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(parent.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78), parent.position.z);
+			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78));
 		}
 	}
 }
