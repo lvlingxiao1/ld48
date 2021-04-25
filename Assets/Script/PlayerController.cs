@@ -108,6 +108,19 @@ public class PlayerController : MonoBehaviour
 			newShock.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(moveTarget) * shockSpeed, Mathf.Sin(moveTarget) * shockSpeed);
 		}
 
+        if (flashCDCounter > 0)
+        {
+            flashCDCounter--;
+        }
+        if (flashDown && flashCDCounter == 0)
+        {
+            flashCDCounter = flashCD;
+            GameObject flash = Resources.Load<GameObject>("Flash");
+            GameObject newFlash = Instantiate(flash);
+            newFlash.transform.eulerAngles = transform.eulerAngles;
+            newFlash.transform.position = transform.position;
+        }
+
 		if (rb.position.y > 77)
 		{
 			oxygen = Mathf.Min(oxygen + 5, oxygenMax);
@@ -137,5 +150,9 @@ public class PlayerController : MonoBehaviour
 				HP = 0;
 			}
 		}
+	}
+
+	public int getShockCD(){
+		return Mathf.CeilToInt(shockCDCounter / (1000 / Time.fixedDeltaTime));
 	}
 }

@@ -14,7 +14,8 @@ public class Main : MonoBehaviour
 	private static RectTransform HPBar;
 	private static Image damage;
 	private static PlayerController playerController;
-
+	private static GameObject shock;
+    private static GameObject flash;
 
 	private void Awake()
 	{
@@ -22,6 +23,7 @@ public class Main : MonoBehaviour
 		currentGoldText = GameObject.Find("current_gold").GetComponentInChildren<TextMeshProUGUI>();
 		O2Bar = GameObject.Find("O2Bar").GetComponent<RectTransform>();
 		HPBar = GameObject.Find("HPBar").GetComponent<RectTransform>();
+        shock = GameObject.Find("Canvas/Shock");
 		TotalGold = 0;
 		CurrentGold = 0;
 		GameObject damageImage = GameObject.Find("Damage");
@@ -60,6 +62,14 @@ public class Main : MonoBehaviour
 		float HPPercent = playerController.HP / playerController.HPMax;
 		HPBar.localScale = new Vector3(HPPercent, 1, 1);
 		damage.color = new Color(1, 1, 1, (float)(playerController.invincibleCount) / playerController.invincibleTime * 0.5f);
+        shock.SetActive(playerController.hasShockGun);
+		int shockCD = playerController.getShockCD();
+		if (shockCD == 0){
+            shock.GetComponentInChildren<TextMeshProUGUI>().text = "";
+		}else{
+            shock.GetComponentInChildren<TextMeshProUGUI>().text = $"{shockCD}";
+		}
+		
 	}
 
 	public static void PlayerDead(Vector3 position)
