@@ -155,6 +155,11 @@ public class PlayerController : MonoBehaviour
 
 	public int GetShockCD()
 	{
-		return Mathf.CeilToInt(shockCDCounter / (1000 / Time.fixedDeltaTime));
+		return Mathf.CeilToInt(shockCDCounter / (1 / Time.fixedDeltaTime));
+	}
+
+	public int GetFlashCD()
+	{
+		return Mathf.CeilToInt(flashCDCounter / (1 / Time.fixedDeltaTime));
 	}
 }

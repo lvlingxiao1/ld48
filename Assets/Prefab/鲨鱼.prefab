@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6481840907044321666}
   m_Layer: 0
   m_Name: Attack
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,10 +71,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8404856917264821217}
   - component: {fileID: 8404856917264821216}
-  - component: {fileID: 8404856917264821246}
   - component: {fileID: 7435512010077019113}
   - component: {fileID: 9018035981868442860}
   - component: {fileID: 281523201}
+  - component: {fileID: 784574513}
   m_Layer: 8
   m_Name: "\u9CA8\u9C7C"
   m_TagString: Shark
@@ -147,21 +147,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8404856917264821246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404856917264821219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2caa80e8fca38c449287ac90b80511c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  searchDistance: 625
-  speed: 0.05
-  shockDuration: 100
 --- !u!50 &7435512010077019113
 Rigidbody2D:
   serializedVersion: 4
@@ -218,3 +203,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &784574513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404856917264821219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4749a28866a07ea4caaf32702a3e226a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchDistance: 625
+  speed: 0.05
+  shockCounter: 0
+  shockDuration: 100
