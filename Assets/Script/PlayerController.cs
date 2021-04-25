@@ -85,15 +85,6 @@ public class PlayerController : MonoBehaviour
 		if (moveAxis > 0)
 		{
 			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78));
-			//if (!bubbleEffect.isPlaying){
-			bubbleEffect.Play();
-			//}
-		} else
-		{
-			if (!bubbleEffect.isStopped)
-			{
-				bubbleEffect.Stop();
-			}
 		}
 		if (shockCDCounter > 0)
 		{
@@ -125,12 +116,20 @@ public class PlayerController : MonoBehaviour
 		if (rb.position.y > 77)
 		{
 			oxygen = Mathf.Min(oxygen + 5, oxygenMax);
+            if (!bubbleEffect.isStopped)
+            {
+                bubbleEffect.Stop();
+            }
 		} else
 		{
 			if (oxygen > 0)
 			{
 				oxygen--;
 			}
+            if (!bubbleEffect.isPlaying)
+            {
+                bubbleEffect.Play();
+            }
 		}
 
 		if (invincibleCounter > 0)
