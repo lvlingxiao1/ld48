@@ -24,6 +24,7 @@ public class Main : MonoBehaviour
 		O2Bar = GameObject.Find("O2Bar").GetComponent<RectTransform>();
 		HPBar = GameObject.Find("HPBar").GetComponent<RectTransform>();
         shock = GameObject.Find("Canvas/Shock");
+        flash = GameObject.Find("Canvas/Flash");
 		TotalGold = 0;
 		CurrentGold = 0;
 		GameObject damageImage = GameObject.Find("Damage");
@@ -69,6 +70,16 @@ public class Main : MonoBehaviour
 		}else{
             shock.GetComponentInChildren<TextMeshProUGUI>().text = $"{shockCD}";
 		}
+        flash.SetActive(playerController.hasFlash);
+        int flashCD = playerController.getFlashCD();
+        if (flashCD == 0)
+        {
+            flash.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+        else
+        {
+            flash.GetComponentInChildren<TextMeshProUGUI>().text = $"{flashCD}";
+        }
 		
 	}
 

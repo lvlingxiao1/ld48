@@ -12,7 +12,7 @@ public class ShockControl : MonoBehaviour
 
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D other) {
-        if (!other.CompareTag("Player")){
+        if (!other.CompareTag("Player") && !other.CompareTag("Attack")){
             if (other.CompareTag("Shark")){
                 other.GetComponent<SharkControl>().StartShock();
             }
