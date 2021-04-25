@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Shark
   - Angler
+  - Attack
   layers:
   - Default
   - TransparentFX
