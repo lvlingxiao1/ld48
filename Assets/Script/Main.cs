@@ -62,4 +62,14 @@ public class Main : MonoBehaviour
         HPBar.localScale = new Vector3(HPPercent, 1, 1);
         damage.color = new Color(1,1,1,(float)(playerController.invincibleCount) / playerController.invincibleTime * 0.5f);
 	}
+
+	public void playerDead(Vector3 position){
+		if (CurrentGold > 0){
+            GameObject lostMoney = Resources.Load<GameObject>("LostMoney");
+            GameObject newLostMoney = Instantiate(lostMoney);
+            newLostMoney.GetComponent<Treasure>().value = CurrentGold;
+            CurrentGold = 0;
+            newLostMoney.transform.position = position;
+		}
+	}
 }

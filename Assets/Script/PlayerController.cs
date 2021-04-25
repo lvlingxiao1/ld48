@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
         if (HP <= 0){
+            GameObject.Find("Main").GetComponent<Main>().playerDead(transform.parent.position);
 			transform.parent.position = new Vector3(-80,70,0);
             moveAxis = 0f;
             oxygenLevel = 0;

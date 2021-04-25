@@ -15,7 +15,7 @@ public class SharkContro : MonoBehaviour
     float attackSpeed = 10f;
     float targetRotationY;
     float angle;
-    int shockCounter;
+    public int shockCounter;
     public int shockDuration = 100;
     Animator animator;
     // Start is called before the first frame update
