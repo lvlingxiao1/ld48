@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using TMPro;
 
 public class Main : MonoBehaviour
@@ -12,6 +12,7 @@ public class Main : MonoBehaviour
 	private TextMeshProUGUI currentGoldText;
     private RectTransform O2Bar;
     private RectTransform HPBar;
+	private Image damage;
 	Transform player;
 	
 
@@ -25,6 +26,9 @@ public class Main : MonoBehaviour
 		player = GameObject.Find("Player").transform;
 		TotalGold = 0;
 		CurrentGold = 0;
+		GameObject damageImage = GameObject.Find("Damage");
+        damageImage.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
+        damage = damageImage.GetComponent<Image>();
 	}
 	public int TotalGold
 	{
@@ -56,5 +60,6 @@ public class Main : MonoBehaviour
         O2Bar.localScale = new Vector3(oxygenPercent, 1, 1);
         float HPPercent = playerController.HP / playerController.HPMax;
         HPBar.localScale = new Vector3(HPPercent, 1, 1);
+        damage.color = new Color(1,1,1,(float)(playerController.invincibleCount) / playerController.invincibleTime * 0.5f);
 	}
 }

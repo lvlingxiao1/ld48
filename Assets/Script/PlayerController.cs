@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 	public float oxygen;
 	bool shockDown;
     bool flashDown;
+    public int invincibleCount;
+	public int invincibleTime = 100;
 	void Start()
 	{
 		moveAxis = 0f;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
         flashCDCounter = 0;
         oxygen = oxygenMax;
         HP = HPMax;
+        invincibleCount = 0;
 	}
 
 	// Update is called once per frame
@@ -60,6 +63,19 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+        if (HP <= 0){
+			transform.parent.position = new Vector3(-80,70,0);
+            moveAxis = 0f;
+            oxygenLevel = 0;
+            suitLevel = 0;
+            hasFlash = false;
+            hasShockGun = false;
+            shockCDCounter = 0;
+            flashCDCounter = 0;
+            oxygen = oxygenMax;
+            HP = HPMax;
+            invincibleCount = 0;
+		}
 		if (moveAxis > 0)
 		{
 			Transform parent = transform.parent;
@@ -80,6 +96,21 @@ public class PlayerController : MonoBehaviour
 		if (oxygen > 0){
             oxygen--;
 		}
+
+		if (invincibleCount > 0){
+            invincibleCount --;
+		}
 		
+	}
+
+	public void damage(float amount){
+		if (invincibleCount == 0){
+			HP -= amount;
+            invincibleCount = invincibleTime;
+            if (HP <= 0)
+            {
+                HP = 0;
+            }
+		}
 	}
 }
