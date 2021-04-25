@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using TMPro;
 
 public class Main : MonoBehaviour
@@ -9,6 +10,8 @@ public class Main : MonoBehaviour
 	private int currentGold = 0;
 	private TextMeshProUGUI totalGoldText;
 	private TextMeshProUGUI currentGoldText;
+    private RectTransform O2Bar;
+    private RectTransform HPBar;
 	Transform player;
 	
 
@@ -17,6 +20,8 @@ public class Main : MonoBehaviour
 	{
 		totalGoldText = GameObject.Find("total_gold").GetComponentInChildren<TextMeshProUGUI>();
 		currentGoldText = GameObject.Find("current_gold").GetComponentInChildren<TextMeshProUGUI>();
+        O2Bar = GameObject.Find("O2Bar").GetComponent<RectTransform>();
+        HPBar = GameObject.Find("HPBar").GetComponent<RectTransform>();
 		player = GameObject.Find("Player").transform;
 		TotalGold = 0;
 		CurrentGold = 0;
@@ -40,10 +45,16 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void FixedUpdate() {
-		if (player.position.y > 77){
+	private void Update() {
+        if (player.position.y > 77)
+        {
             TotalGold = TotalGold + CurrentGold;
             CurrentGold = 0;
-		}
+        }
+        PlayerController playerController= player.GetComponentInChildren<PlayerController>();
+		float oxygenPercent = playerController.oxygen / playerController.oxygenMax;
+        O2Bar.localScale = new Vector3(oxygenPercent, 1, 1);
+        float HPPercent = playerController.HP / playerController.HPMax;
+        HPBar.localScale = new Vector3(HPPercent, 1, 1);
 	}
 }

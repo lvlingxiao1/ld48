@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3512551534535983803}
   m_Layer: 8
   m_Name: "\u9B9F\u9C47\u9C7C"
-  m_TagString: Untagged
+  m_TagString: Angler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

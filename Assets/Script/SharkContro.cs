@@ -15,11 +15,16 @@ public class SharkContro : MonoBehaviour
     float attackSpeed = 10f;
     float targetRotationY;
     float angle;
+    int shockCounter;
+    public int shockDuration = 100;
+    Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         attackCounter = 0;
+        shockCounter = 0;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -30,9 +35,10 @@ public class SharkContro : MonoBehaviour
 
     private void FixedUpdate() {
         Vector3 diff = player.position - transform.position;
-        if (Mathf.Pow(diff.x, 2) + Mathf.Pow(diff.y, 2) < searchDistance){
+        if (Mathf.Pow(diff.x, 2) + Mathf.Pow(diff.y, 2) < searchDistance && shockCounter == 0){
             attackCounter ++;
             if (attackCounter >= attackCD && attackCounter < attackCharge){
+                animator.SetBool("inCharge", true);
                 if (transform.eulerAngles.y > 90){
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
                 }else{
@@ -41,12 +47,15 @@ public class SharkContro : MonoBehaviour
 
             }else if (attackCounter >= attackCharge && attackCounter < attackDuration)
             {
+                animator.SetBool("inAttack", true);
                 transform.position = new Vector3(transform.position.x + Mathf.Cos(angle) * speed * attackSpeed, transform.position.y + Mathf.Sin(angle) * speed * attackSpeed, transform.position.z);
             }else if (attackCounter >= attackDuration)
             {
                 attackCounter = 0;
             }
             if (attackCounter < attackCD){
+                animator.SetBool("inCharge", false);
+                animator.SetBool("inAttack", false);
                 angle = Mathf.Atan2(diff.y, diff.x);
                 if (Mathf.Abs(angle) > Mathf.PI / 2)
                 {
@@ -66,6 +75,19 @@ public class SharkContro : MonoBehaviour
         }else
         {
             attackCounter = 0;
+            if (shockCounter > 0){
+                shockCounter --;
+            }
+            if (shockCounter == 0){
+                animator.SetBool("inShock", false);
+            }
+            animator.SetBool("inCharge", false);
+            animator.SetBool("inAttack", false);
         }
+    }
+
+    public void startShock(){
+        shockCounter = shockDuration;
+        animator.SetBool("inShock", true);
     }
 }
