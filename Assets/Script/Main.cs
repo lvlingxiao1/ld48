@@ -53,25 +53,20 @@ public class Main : MonoBehaviour
 
 	private void Update()
 	{
-		//if (player.position.y > 77)
-		//{
-		//    TotalGold = TotalGold + CurrentGold;
-		//    CurrentGold = 0;
-		//}
 		float oxygenPercent = playerController.oxygen / playerController.oxygenMax;
 		O2Bar.localScale = new Vector3(oxygenPercent, 1, 1);
 		float HPPercent = playerController.HP / playerController.HPMax;
 		HPBar.localScale = new Vector3(HPPercent, 1, 1);
-		damage.color = new Color(1, 1, 1, (float)(playerController.invincibleCount) / playerController.invincibleTime * 0.5f);
+		damage.color = new Color(1, 1, 1, (float)(playerController.invincibleCounter) / playerController.invincibleTime * 0.5f);
         shock.SetActive(playerController.hasShockGun);
-		int shockCD = playerController.getShockCD();
+		int shockCD = playerController.GetShockCD();
 		if (shockCD == 0){
             shock.GetComponentInChildren<TextMeshProUGUI>().text = "";
 		}else{
             shock.GetComponentInChildren<TextMeshProUGUI>().text = $"{shockCD}";
 		}
         flash.SetActive(playerController.hasFlash);
-        int flashCD = playerController.getFlashCD();
+        int flashCD = playerController.GetFlashCD();
         if (flashCD == 0)
         {
             flash.GetComponentInChildren<TextMeshProUGUI>().text = "";

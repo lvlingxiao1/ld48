@@ -25,13 +25,13 @@ public class PlayerController : MonoBehaviour
 	public float oxygen;
 	bool shockDown;
 	bool flashDown;
-	public int invincibleCount;
+	public int invincibleCounter;
 	public int invincibleTime = 100;
-	ParticleSystem swimAffect;
+	ParticleSystem bubbleEffect;
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
-        swimAffect = GetComponentInChildren<ParticleSystem>();
+		bubbleEffect = GetComponentInChildren<ParticleSystem>();
 		moveAxis = 0f;
 		oxygenLevel = 0;
 		suitLevel = 0;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 		flashCDCounter = 0;
 		oxygen = oxygenMax;
 		HP = HPMax;
-		invincibleCount = 0;
+		invincibleCounter = 0;
 	}
 
 	// Update is called once per frame
@@ -80,19 +80,20 @@ public class PlayerController : MonoBehaviour
 			flashCDCounter = 0;
 			oxygen = oxygenMax;
 			HP = HPMax;
-			invincibleCount = 0;
+			invincibleCounter = 0;
 		}
 		if (moveAxis > 0)
 		{
 			rb.position = new Vector2(rb.position.x + Mathf.Cos(moveTarget) * moveAxis * moveSpeed, Mathf.Min(rb.position.y + Mathf.Sin(moveTarget) * moveAxis * moveSpeed, 78));
-			if (!swimAffect.isPlaying){
-                swimAffect.Play();
+			//if (!bubbleEffect.isPlaying){
+			bubbleEffect.Play();
+			//}
+		} else
+		{
+			if (!bubbleEffect.isStopped)
+			{
+				bubbleEffect.Stop();
 			}
-		}else{
-            if (!swimAffect.isStopped)
-            {
-                swimAffect.Stop();
-            }
 		}
 		if (shockCDCounter > 0)
 		{
@@ -108,18 +109,18 @@ public class PlayerController : MonoBehaviour
 			newShock.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(moveTarget) * shockSpeed, Mathf.Sin(moveTarget) * shockSpeed);
 		}
 
-        if (flashCDCounter > 0)
-        {
-            flashCDCounter--;
-        }
-        if (flashDown && flashCDCounter == 0)
-        {
-            flashCDCounter = flashCD;
-            GameObject flash = Resources.Load<GameObject>("Flash");
-            GameObject newFlash = Instantiate(flash);
-            newFlash.transform.eulerAngles = transform.eulerAngles;
-            newFlash.transform.position = transform.position;
-        }
+		if (flashCDCounter > 0)
+		{
+			flashCDCounter--;
+		}
+		if (flashDown && flashCDCounter == 0)
+		{
+			flashCDCounter = flashCD;
+			GameObject flash = Resources.Load<GameObject>("Flash");
+			GameObject newFlash = Instantiate(flash);
+			newFlash.transform.eulerAngles = transform.eulerAngles;
+			newFlash.transform.position = transform.position;
+		}
 
 		if (rb.position.y > 77)
 		{
@@ -132,19 +133,19 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (invincibleCount > 0)
+		if (invincibleCounter > 0)
 		{
-			invincibleCount--;
+			invincibleCounter--;
 		}
 
 	}
 
 	public void Damage(float amount)
 	{
-		if (invincibleCount == 0)
+		if (invincibleCounter == 0)
 		{
 			HP -= amount;
-			invincibleCount = invincibleTime;
+			invincibleCounter = invincibleTime;
 			if (HP <= 0)
 			{
 				HP = 0;
@@ -152,12 +153,13 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public int getShockCD(){
+	public int GetShockCD()
+	{
 		return Mathf.CeilToInt(shockCDCounter / (1 / Time.fixedDeltaTime));
 	}
 
-    public int getFlashCD()
-    {
-        return Mathf.CeilToInt(flashCDCounter / (1 / Time.fixedDeltaTime));
-    }
+	public int GetFlashCD()
+	{
+		return Mathf.CeilToInt(flashCDCounter / (1 / Time.fixedDeltaTime));
+	}
 }
