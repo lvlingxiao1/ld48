@@ -19,6 +19,7 @@ public class SharkControl : MonoBehaviour, Respawnable
     public int shockDuration = 100;
     Animator animator;
     AudioSource attackSound;
+    public AudioSource stunSound;
     public Vector3 respawnPos = new Vector3(0,0,0);
     bool attacked;
     // Start is called before the first frame update
@@ -92,6 +93,7 @@ public class SharkControl : MonoBehaviour, Respawnable
 
     public void StartShock(){
         shockCounter = shockDuration;
+        stunSound.Play();
         animator.SetBool("inShock", true);
     }
 
