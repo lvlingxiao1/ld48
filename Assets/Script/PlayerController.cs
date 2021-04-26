@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void updateEquipment(){
+	public void UpdateEquipment(){
         oxygenMax = o2TankMax[o2TankLevel];
         HPMax = suitMax[suitLevel];
         oxygen = oxygenMax;

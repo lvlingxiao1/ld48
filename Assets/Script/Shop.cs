@@ -81,7 +81,7 @@ public class Shop : MonoBehaviour
 		{
 			Main.TotalGold += Main.CurrentGold;
 			Main.CurrentGold = 0;
-            player.HP = player.HPMax;
+			player.HP = player.HPMax;
 			UI.shopUICanvas.enabled = true;
 		}
 	}
@@ -91,13 +91,15 @@ public class Shop : MonoBehaviour
 		if (collision.CompareTag("Player"))
 		{
 			UI.shopUICanvas.enabled = false;
-            player.updateEquipment();
+			player.UpdateEquipment();
 		}
 	}
 
 	void Buy(int itemID)
 	{
 		if (items[itemID].currentLevel == items[itemID].maxLevel) return;
+		if (itemID == O2_TANK && items[itemID].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 2) return;
+
 		int price = items[itemID].prices[items[itemID].currentLevel];
 		if (price > Main.TotalGold) return;
 		Main.TotalGold -= price;
@@ -115,9 +117,14 @@ public class Shop : MonoBehaviour
 			{
 				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = "--";
 				itemsUI[i].GetChild(BUY).GetComponentInChildren<TextMeshProUGUI>().text = "Sold Out";
+			} else if (i == O2_TANK && items[i].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 2)
+			{
+				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = "N/A";
+				itemsUI[i].GetChild(BUY).GetComponentInChildren<TextMeshProUGUI>().text = "N/A";
 			} else
 			{
 				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = $"$ {items[i].prices[items[i].currentLevel]}";
+				itemsUI[i].GetChild(BUY).GetComponentInChildren<TextMeshProUGUI>().text = $"BUY";
 			}
 		}
 	}
