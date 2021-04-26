@@ -18,12 +18,15 @@ public class SharkControl : MonoBehaviour, Respawnable
     public int shockCounter;
     public int shockDuration = 100;
     Animator animator;
+    AudioSource attackSound;
     public Vector3 respawnPos = new Vector3(0,0,0);
+    bool attacked;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
+        attackSound = GetComponent<AudioSource>();
         respawn();
     }
 
@@ -42,10 +45,16 @@ public class SharkControl : MonoBehaviour, Respawnable
             }else if (attackCounter >= attackCharge && attackCounter < attackDuration)
             {
                 animator.SetBool("inAttack", true);
+                if (!attacked)
+                {
+                    attacked = true;
+                    attackSound.Play();
+                }
                 transform.position = new Vector3(transform.position.x + Mathf.Cos(angle) * speed * attackSpeed, transform.position.y + Mathf.Sin(angle) * speed * attackSpeed, transform.position.z);
             }else if (attackCounter >= attackDuration)
             {
                 attackCounter = 0;
+                attacked = false;
             }
             if (attackCounter < attackCD){
                 animator.SetBool("inCharge", false);
@@ -69,6 +78,7 @@ public class SharkControl : MonoBehaviour, Respawnable
         }else
         {
             attackCounter = 0;
+            attacked = false;
             if (shockCounter > 0){
                 shockCounter --;
             }
@@ -88,6 +98,7 @@ public class SharkControl : MonoBehaviour, Respawnable
     public void respawn(){
         attackCounter = 0;
         shockCounter = 0;
+        attacked = false;
         transform.position = respawnPos;
         transform.eulerAngles = new Vector3(0,0,0);
     }
