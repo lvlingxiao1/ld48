@@ -17,6 +17,7 @@ public class UI : MonoBehaviour
 	public static PlayerController playerController;
 	public static GameObject flashBombIcon;
 	public static GameObject shockGunIcon;
+	public static Canvas UICanvas;
 	public static Canvas shopUICanvas;
 	public static GameObject shopTooltip;
 	public static TextMeshProUGUI itemName;
@@ -37,6 +38,7 @@ public class UI : MonoBehaviour
 		playerController = FindObjectOfType<PlayerController>();
 		shopUICanvas = GameObject.Find("ShopUI").GetComponent<Canvas>();
 		UIAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
+		UICanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		shopTooltip = GameObject.Find("ShopTooltip");
 		itemName = GameObject.Find("itemName").GetComponent<TextMeshProUGUI>();
 		itemDescription = GameObject.Find("itemDescription").GetComponent<TextMeshProUGUI>();

@@ -44,6 +44,7 @@ public class Shop : MonoBehaviour
 	Transform shopUI;
 	Transform[] itemsUI;
 	PlayerController player;
+	public static int totalRevenue = 0;
 
 	const int PRICE = 1;
 	const int BUY = 2;
@@ -103,6 +104,7 @@ public class Shop : MonoBehaviour
 		items[itemID].currentLevel++;
 		UpdateSoldOut();
 		UpdatePlayerEquipments();
+		totalRevenue += price;
 	}
 
 	void UpdateSoldOut()
