@@ -12,31 +12,31 @@ public class Shop : MonoBehaviour
 			name = "Searchlight",
 			maxLevel = 1,
 			prices = new int[] { 3000 },
-			description = "You will need this to see in deep sea"
+			description = "You will need this to see in deep sea."
 		},
 		new ShopItem {
 			name = "Electric Shock Gun",
 			maxLevel = 1,
 			prices = new int[] { 2000 },
-			description = "Stun the fishes"
+			description = "Stun the fishes."
 		},
 		new ShopItem {
 			name = "Flash Bomb",
 			maxLevel = 1,
 			prices = new int[] { 4000 },
-			description = "Fishes in deep sea are afraid of light"
+			description = "Fishes in deep sea are afraid of light."
 		},
 		new ShopItem {
 			name = "Oxygen Tank",
-			maxLevel = 1,
+			maxLevel = 2,
 			prices = new int[] { 5000, 10000 },
-			description = ""
+			description = "Increase Oxygen capacity by 50%."
 		},
 		new ShopItem {
 			name = "Diving Suit",
-			maxLevel = 1,
+			maxLevel = 2,
 			prices = new int[] { 10000, 20000 },
-			description = ""
+			description = "Allow you to dive deeper.\nIncrease HP by 50%.\nIncrease swim speed by 20%."
 		},
 	};
 
@@ -80,6 +80,7 @@ public class Shop : MonoBehaviour
 		{
 			Main.TotalGold += Main.CurrentGold;
 			Main.CurrentGold = 0;
+            player.HP = player.HPMax;
 			UI.shopUICanvas.enabled = true;
 		}
 	}
@@ -89,6 +90,7 @@ public class Shop : MonoBehaviour
 		if (collision.CompareTag("Player"))
 		{
 			UI.shopUICanvas.enabled = false;
+            player.updateEquipment();
 		}
 	}
 

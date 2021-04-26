@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SharkControl : MonoBehaviour
+public class SharkControl : MonoBehaviour, Respawnable
 {
     Transform player;
 
@@ -18,19 +18,13 @@ public class SharkControl : MonoBehaviour
     public int shockCounter;
     public int shockDuration = 100;
     Animator animator;
+    public Vector3 respawnPos = new Vector3(0,0,0);
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
-        attackCounter = 0;
-        shockCounter = 0;
         animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        respawn();
     }
 
     private void FixedUpdate() {
@@ -89,5 +83,12 @@ public class SharkControl : MonoBehaviour
     public void StartShock(){
         shockCounter = shockDuration;
         animator.SetBool("inShock", true);
+    }
+
+    public void respawn(){
+        attackCounter = 0;
+        shockCounter = 0;
+        transform.position = respawnPos;
+        transform.eulerAngles = new Vector3(0,0,0);
     }
 }

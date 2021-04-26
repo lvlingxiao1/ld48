@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 		rb = transform.parent.GetComponent<Rigidbody2D>();
 		initPos = rb.position;
 		bubbleEffect = GetComponentInChildren<ParticleSystem>();
-        moveable = true;
+        moveable = false;
         suitLevel = 0;
         o2TankLevel = 0;
 		Respawn();
@@ -161,6 +161,17 @@ public class PlayerController : MonoBehaviour
         deadByPressure = false;
         inPressure = false;
 		transform.eulerAngles = new Vector3(0, 0, 0);
+        Respawnable[] fishes= GameObject.Find("Fishes").GetComponentsInChildren<Respawnable>();
+		foreach (Respawnable fish in fishes){
+			fish.respawn();
+		}
+	}
+
+	public void updateEquipment(){
+        oxygenMax = o2TankMax[o2TankLevel];
+        HPMax = suitMax[suitLevel];
+        oxygen = oxygenMax;
+        HP = HPMax;
 	}
 
 	public void Damage(float amount)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnglerControl : MonoBehaviour
+public class AnglerControl : MonoBehaviour, Respawnable
 {
     Transform player;
 
@@ -18,12 +18,12 @@ public class AnglerControl : MonoBehaviour
     public int flashDuration = 66;
     int flashCounter;
     Vector3 flashSpeed;
+    public Vector3 respawnPos = new Vector3(0, 0, 0);
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
-        attackCounter = 0;
-        flashCounter = 0;
+        respawn();
     }
 
     // Update is called once per frame
@@ -102,5 +102,13 @@ public class AnglerControl : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, angle * Mathf.Rad2Deg);
         }
+    }
+
+    public void respawn()
+    {
+        attackCounter = 0;
+        flashCounter = 0;
+        transform.position = respawnPos;
+        transform.eulerAngles = new Vector3(0, 0, 0);
     }
 }

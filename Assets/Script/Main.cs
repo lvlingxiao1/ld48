@@ -44,8 +44,6 @@ public class Main : MonoBehaviour
 			newLostMoney.GetComponent<Treasure>().value = CurrentGold;
 			CurrentGold = 0;
 			newLostMoney.transform.position = position;
-			print(CurrentGold);
-			print(position);
 		}
         playerController.moveable = false;
 		UI.UIAnimator.SetTrigger("inDead");
