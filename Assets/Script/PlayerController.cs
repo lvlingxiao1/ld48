@@ -40,11 +40,15 @@ public class PlayerController : MonoBehaviour
     
 	private Vector2 initPos;
 	public bool moveable;
+	AudioSource moneySound;
+    public AudioSource hurtSound;
+    public AudioSource deadSound;
 	void Start()
 	{
 		rb = transform.parent.GetComponent<Rigidbody2D>();
 		initPos = rb.position;
 		bubbleEffect = GetComponentInChildren<ParticleSystem>();
+        moneySound = GetComponent<AudioSource>();
         moveable = false;
         suitLevel = 0;
         o2TankLevel = 0;
@@ -85,6 +89,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (HP <= 0)
 		{
+			deadSound.Play();
             if (deadByPressure)
             {
                 Main.PlayerDead(warningEnterPosition);
@@ -184,6 +189,7 @@ public class PlayerController : MonoBehaviour
 		{
 			HP -= amount;
 			invincibleCounter = invincibleTime;
+			hurtSound.Play();
 			if (HP <= 0)
 			{
 				HP = 0;
@@ -223,5 +229,9 @@ public class PlayerController : MonoBehaviour
 
 	public void SetWarningEnterPosition(){
 		warningEnterPosition = new Vector3(transform.position.x, transform.position.y, 0);
+	}
+
+	public void PlayMoneySound(){
+        moneySound.Play();
 	}
 }

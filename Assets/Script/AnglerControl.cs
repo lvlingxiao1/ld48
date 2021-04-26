@@ -18,11 +18,14 @@ public class AnglerControl : MonoBehaviour, Respawnable
     public int flashDuration = 66;
     int flashCounter;
     Vector3 flashSpeed;
+    AudioSource attackSound;
     public Vector3 respawnPos = new Vector3(0, 0, 0);
+    bool attacked;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
+        attackSound = GetComponent<AudioSource>();
         respawn();
     }
 
@@ -58,11 +61,17 @@ public class AnglerControl : MonoBehaviour, Respawnable
             }
             else if (attackCounter >= attackCharge && attackCounter < attackDuration)
             {
+                if (!attacked)
+                {
+                    attacked = true;
+                    attackSound.Play();
+                }
                 transform.position = new Vector3(transform.position.x + Mathf.Cos(angle) * speed * attackSpeed, transform.position.y + Mathf.Sin(angle) * speed * attackSpeed, transform.position.z);
             }
             else if (attackCounter >= attackDuration)
             {
                 attackCounter = 0;
+                attacked = false;
             }
             if (attackCounter < attackCD)
             {
@@ -86,6 +95,7 @@ public class AnglerControl : MonoBehaviour, Respawnable
         else
         {
             attackCounter = attackCD;
+            attacked = false;
         }
     }
 
@@ -108,6 +118,7 @@ public class AnglerControl : MonoBehaviour, Respawnable
     {
         attackCounter = 0;
         flashCounter = 0;
+        attacked = false;
         transform.position = respawnPos;
         transform.eulerAngles = new Vector3(0, 0, 0);
     }

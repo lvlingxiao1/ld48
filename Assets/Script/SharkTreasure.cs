@@ -27,6 +27,7 @@ public class SharkTreasure : MonoBehaviour
 		if (pickable && other.CompareTag("Player"))
 		{
 			Main.CurrentGold += value;
+            FindObjectOfType<PlayerController>().PlayMoneySound();
 			Destroy(gameObject);
 		}
 	}
