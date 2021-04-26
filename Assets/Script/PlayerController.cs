@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
 	Vector3 warningEnterPosition;
 	public bool inPressure;
 	public float pressureDamageAmount = 5;
+    public float oxygenDamageAmount = 1;
+    
 	private Vector2 initPos;
 	public bool moveable;
 	void Start()
@@ -135,6 +137,8 @@ public class PlayerController : MonoBehaviour
 			if (oxygen > 0)
 			{
 				oxygen--;
+			}else{
+				OxygenDamage();
 			}
 			if (!bubbleEffect.isPlaying)
 			{
@@ -188,7 +192,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	public void PressureDamage(){
-        HP -= pressureDamageAmount;
+        HP -= pressureDamageAmount * HPMax / 100;
         invincibleCounter = invincibleTime / 2;
         if (HP <= 0)
         {
@@ -196,6 +200,16 @@ public class PlayerController : MonoBehaviour
             HP = 0;
         }
 	}
+
+    public void OxygenDamage()
+    {
+        HP -= oxygenDamageAmount * HPMax / 100;
+        invincibleCounter = invincibleTime / 3;
+        if (HP <= 0)
+        {
+            HP = 0;
+        }
+    }
 
 	public int GetShockCD()
 	{

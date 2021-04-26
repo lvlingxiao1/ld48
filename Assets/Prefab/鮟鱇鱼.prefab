@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca526fa4020c34684f7bbfaf7e91e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 70
+  damage: 100
 --- !u!70 &252976771
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -271,3 +271,4 @@ MonoBehaviour:
   searchDistance: 81
   speed: 0.05
   flashDuration: 80
+  respawnPos: {x: 0, y: 0, z: 0}
