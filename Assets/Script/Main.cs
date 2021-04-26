@@ -12,7 +12,7 @@ public class Main : MonoBehaviour
 
 	private void Start()
 	{
-		TotalGold = 88888;
+		TotalGold = 0;
 		CurrentGold = 0;
 		playerController = FindObjectOfType<PlayerController>();
 	}
