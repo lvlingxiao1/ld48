@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -20850,7 +20850,7 @@ GameObject:
   - component: {fileID: 677481695}
   m_Layer: 0
   m_Name: Level2Damage
-  m_TagString: Untagged
+  m_TagString: Area
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39967,7 +39967,7 @@ GameObject:
   - component: {fileID: 1478562803}
   m_Layer: 0
   m_Name: Level1Damage
-  m_TagString: Untagged
+  m_TagString: Area
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42526,7 +42526,7 @@ GameObject:
   - component: {fileID: 1553190001}
   m_Layer: 0
   m_Name: Level1Warning
-  m_TagString: Untagged
+  m_TagString: Area
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44333,7 +44333,7 @@ GameObject:
   - component: {fileID: 1639040714}
   m_Layer: 0
   m_Name: 'Level2Warning '
-  m_TagString: Untagged
+  m_TagString: Area
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

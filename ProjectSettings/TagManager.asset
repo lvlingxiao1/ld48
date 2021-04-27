@@ -7,6 +7,7 @@ TagManager:
   - Shark
   - Angler
   - Attack
+  - Area
   layers:
   - Default
   - TransparentFX

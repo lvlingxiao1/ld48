@@ -98,7 +98,7 @@ public class Shop : MonoBehaviour
 	void Buy(int itemID)
 	{
 		if (items[itemID].currentLevel == items[itemID].maxLevel) return;
-		if (itemID == O2_TANK && items[itemID].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 2) return;
+		if (itemID == O2_TANK && items[itemID].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 1) return;
 
 		int price = items[itemID].prices[items[itemID].currentLevel];
 		if (price > Main.TotalGold) return;
@@ -117,7 +117,7 @@ public class Shop : MonoBehaviour
 			{
 				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = "--";
 				itemsUI[i].GetChild(BUY).GetComponentInChildren<TextMeshProUGUI>().text = "Sold Out";
-			} else if (i == O2_TANK && items[i].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 2)
+			} else if (i == O2_TANK && items[i].currentLevel == 1 && items[DIVING_SUIT].currentLevel < 1)
 			{
 				itemsUI[i].GetChild(PRICE).GetComponentInChildren<TextMeshProUGUI>().text = "N/A";
 				itemsUI[i].GetChild(BUY).GetComponentInChildren<TextMeshProUGUI>().text = "N/A";
